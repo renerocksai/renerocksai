@@ -86,7 +86,7 @@ def text(x, y, s, size, fill, weight=400, anchor="start", extra=""):
 
 def hero(t):
     W, H = 1200, 360
-    cmd = './case-study --question "is it cool?"'
+    cmd = './case-study "without the cloud?"'
     char_w = 20 * 0.6
     steps = len(cmd)
     widths = ";".join(f"{i * char_w:.1f}" for i in range(steps + 1))
@@ -114,7 +114,7 @@ def hero(t):
     for x, y in pads:
         trace_svg.append(f'<circle cx="{x}" cy="{y}" r="6" fill="{t["bg1"]}" stroke="{t["trace"]}" stroke-width="3"/>')
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="Rene Schallner: software engineer turned AI researcher and engineer. I build things to find out if they are cool.">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="Rene Schallner: software engineer turned AI researcher and engineer. I build the tools I use every day.">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0" stop-color="{t["bg1"]}"/><stop offset="1" stop-color="{t["bg0"]}"/>
@@ -158,7 +158,7 @@ def hero(t):
   {text(64, 76, "rene@vienna", 20, t["green"], 600)}{text(64 + 11 * 12, 76, ":", 20, t["muted"])}{text(64 + 12 * 12, 76, "~/code", 20, t["purple"], 600)}{text(64 + 19 * 12, 76, "$ whoami", 20, t["muted"])}
   {text(60, 158, "Rene Schallner", 78, t["text"], 800, extra='letter-spacing="-1"')}
   {text(64, 208, "software engineer → AI researcher & engineer", 27, t["muted"])}
-  {text(64, 250, "I build things to find out if they're", 28, t["text"])}{text(64 + 38 * 16.8, 250, "cool.", 28, t["orange"], 800)}
+  {text(64, 250, "I build the tools I use", 28, t["text"])}{text(64 + 24 * 16.8, 250, "every day.", 28, t["orange"], 800)}
 
   {text(64, 312, "$", 20, t["green"], 700)}
   <g clip-path="url(#typed)">{text(102, 312, cmd, 20, t["text"])}</g>
@@ -168,7 +168,7 @@ def hero(t):
   </rect>
   <g opacity="0">
     <animate attributeName="opacity" begin="3.8s" dur="0.4s" to="1" fill="freeze"/>
-    {text(102 + (steps + 2) * char_w, 312, "→ yes, it is.", 20, t["green"], 700)}
+    {text(102 + (steps + 2) * char_w, 312, "✓ daily driver", 20, t["green"], 700)}
   </g>
 </g>
 <rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="18" fill="none" stroke="{t["border"]}"/>
@@ -270,12 +270,129 @@ def project_map(t, stars):
 '''
 
 
+# ---------------------------------------------------------------- omarchy
+
+OMARCHY_THEMES = {
+    # Tokyo Night and Tokyo Night Day, as on omarchy.org
+    "dark": {
+        "bg": "#1a1b26", "pix0": "#232433", "pix1": "#2f3549", "pix2": "#3b4261",
+        "text": "#c0caf5", "muted": "#737aa2", "bar": "#16161e", "barline": "#3b4261",
+        "blue": "#7aa2f7", "green": "#9ece6a", "red": "#f7768e", "purple": "#bb9af7", "cyan": "#7dcfff",
+        "bands": ["#c0caf5", "#a9b8f0", "#8fabf3", "#7aa2f7", "#5a7fd6", "#3d59a1"],
+    },
+    "light": {
+        "bg": "#e1e2e7", "pix0": "#d6d8e1", "pix1": "#c4c8da", "pix2": "#a8aecb",
+        "text": "#3760bf", "muted": "#6172b0", "bar": "#d0d5e3", "barline": "#a8aecb",
+        "blue": "#2e7de9", "green": "#587539", "red": "#f52a65", "purple": "#9854f1", "cyan": "#007197",
+        "bands": ["#6d8fe0", "#4f7ade", "#2e7de9", "#2a66c4", "#23519e", "#1a3f7a"],
+    },
+}
+
+
+def pixel_icon(rows, x, y, px, color):
+    """Draw an icon from strings of '#' and '.' on a px grid."""
+    out = []
+    for j, row in enumerate(rows):
+        for i, ch in enumerate(row):
+            if ch == "#":
+                out.append(f'<rect x="{x + i * px}" y="{y + j * px}" width="{px}" height="{px}"/>')
+    return f'<g fill="{color}" shape-rendering="crispEdges">{"".join(out)}</g>'
+
+
+ICONS = {
+    "omajot": ["#######.", "#.....##", "#.###..#", "#......#", "#.####.#", "#......#", "#.###..#", "########"],
+    "omajop": ["..######", ".#.....#", "##.###.#", "#......#", "##.###.#", "#......#", "##.....#", ".#######"],
+    "omapress": ["#######.", "#.....#.", "#.##..##", "#.##..##", "#.....##", "#.###.##", "#......#", "########"],
+}
+
+
+def omarchy_banner(t):
+    import random
+    W, H, G = 1200, 420, 15
+    rng = random.Random(7)
+    logo = (ROOT / "scripts" / "omarchy-logo.svg").read_text()
+    logo_paths = logo[logo.index("<g"):logo.rindex("</g>") + 4].replace('fill="#000"', 'fill="url(#bands)"')
+
+    # the omarchy.org mosaic: sparse pixels, denser towards the edges
+    pixels, twinkles = [], []
+    for gx in range(0, W, G):
+        for gy in range(0, H, G):
+            edge = min(gx, W - gx) / (W / 2)
+            if 100 < gx < 1100 and 240 < gy < 380:  # keep the bar and its labels clean
+                continue
+            if gx > 780 and gy > H - 45:  # and the credit line
+                continue
+            if rng.random() < 0.45 * (1 - edge) ** 3 + 0.02:
+                c = rng.choice([t["pix0"], t["pix1"], t["pix1"], t["pix2"]])
+                size = G - 3
+                if rng.random() < 0.06:
+                    twinkles.append(
+                        f'<rect x="{gx}" y="{gy}" width="{size}" height="{size}" fill="{t["blue"]}" opacity="0">'
+                        f'<animate attributeName="opacity" values="0;0.9;0" dur="{rng.uniform(3, 7):.1f}s" '
+                        f'begin="{rng.uniform(0, 6):.1f}s" repeatCount="indefinite"/></rect>')
+                else:
+                    pixels.append(f'<rect x="{gx}" y="{gy}" width="{size}" height="{size}" fill="{c}"/>')
+
+    bands = t["bands"]
+    stops = "".join(
+        f'<stop offset="{i / len(bands):.3f}" stop-color="{c}"/><stop offset="{(i + 1) / len(bands):.3f}" stop-color="{c}"/>'
+        for i, c in enumerate(bands))
+
+    scale = 0.62
+    lw, lh = 1215 * scale, 285 * scale
+    lx, ly = (W - lw) / 2, 36
+
+    # the bar
+    bx, by, bw, bh = 110, 250, 980, 58
+    bar = [f'<rect x="{bx}" y="{by}" width="{bw}" height="{bh}" rx="10" fill="{t["bar"]}" stroke="{t["barline"]}" stroke-width="2"/>']
+    for i in range(4):
+        fill = t["blue"] if i == 0 else t["pix2"]
+        bar.append(f'<rect x="{bx + 24 + i * 30}" y="{by + 20}" width="18" height="18" rx="2" fill="{fill}"/>')
+    bar.append(text(bx + 300, by + 37, "Sat 19:25", 22, t["text"], 700, anchor="middle"))
+
+    plugins = [("omajot", "green"), ("omajop", "blue"), ("omapress", "red"), ("neomarchy", "purple")]
+    icons = []
+    for i, (name, color) in enumerate(plugins):
+        cx = bx + 470 + i * 150
+        ix, iy = cx - 20, by + 9
+        if name == "neomarchy":
+            for k, (lo, hi) in enumerate([(10, 34), (18, 40), (8, 30), (15, 37)]):
+                icons.append(
+                    f'<rect x="{ix + k * 10}" width="8" fill="{t[color]}" y="{iy + 40 - hi}" height="{hi}">'
+                    f'<animate attributeName="height" values="{hi};{lo};{hi}" dur="{0.9 + k * 0.23:.2f}s" repeatCount="indefinite"/>'
+                    f'<animate attributeName="y" values="{iy + 40 - hi};{iy + 40 - lo};{iy + 40 - hi}" dur="{0.9 + k * 0.23:.2f}s" repeatCount="indefinite"/></rect>')
+        else:
+            icons.append(pixel_icon(ICONS[name], ix, iy, 5, t[color]))
+        if name == "omapress":  # unread news
+            icons.append(f'<rect x="{ix + 34}" y="{iy - 5}" width="11" height="11" fill="{t["red"]}" stroke="{t["bar"]}" stroke-width="2">'
+                         f'<animate attributeName="opacity" values="1;0.35;1" dur="1.6s" repeatCount="indefinite"/></rect>')
+        icons.append(text(cx, by + bh + 40, name, 23, t[color], 700, anchor="middle"))
+
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="The Omarchy wordmark above an Omarchy bar holding four plugins by Rene: omajot, omajop, omapress and neomarchy.">
+<defs>
+  <linearGradient id="bands" x1="0" y1="0" x2="0" y2="1">{stops}</linearGradient>
+  <clipPath id="frame"><rect width="{W}" height="{H}" rx="18"/></clipPath>
+</defs>
+<g clip-path="url(#frame)">
+<rect width="{W}" height="{H}" fill="{t["bg"]}"/>
+<g shape-rendering="crispEdges">{"".join(pixels)}{"".join(twinkles)}</g>
+<g transform="translate({lx:.1f} {ly}) scale({scale})" shape-rendering="crispEdges">{logo_paths}</g>
+{"".join(bar)}
+{"".join(icons)}
+{text(W - 24, H - 18, "Omarchy logo: MIT, basecamp/omarchy", 14, t["muted"], anchor="end")}
+</g>
+<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="18" fill="none" stroke="{t["barline"]}"/>
+</svg>
+"""
+
+
 def main():
     stars = fetch_stars()
     ASSETS.mkdir(exist_ok=True)
     for name, theme in THEMES.items():
         (ASSETS / f"hero-{name}.svg").write_text(hero(theme))
         (ASSETS / f"map-{name}.svg").write_text(project_map(theme, stars))
+        (ASSETS / f"omarchy-{name}.svg").write_text(omarchy_banner(OMARCHY_THEMES[name]))
     print("stars:", stars)
 
 

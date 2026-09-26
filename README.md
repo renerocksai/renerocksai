@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
-  <img alt="Rene Schallner: software engineer turned AI researcher and engineer. I build things to find out if they're cool." src="assets/hero-light.svg" width="100%">
+  <img alt="Rene Schallner: software engineer turned AI researcher and engineer. I build the tools I use every day." src="assets/hero-light.svg" width="100%">
 </picture>
 
 <p align="center">
@@ -27,6 +27,50 @@ grow up and get a successor. So my repos aren't a list. They're a family tree:
 **omajot is where the lines meet:** notes from the green line, a hub served by
 baz from the orange one, and the no-cloud rule from the blue one.
 
+## 🖥️ Omarchy
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/omarchy-dark.svg">
+  <img alt="The Omarchy wordmark above an Omarchy bar holding my four plugins: omajot, omajop, omapress and neomarchy." src="assets/omarchy-light.svg" width="100%">
+</picture>
+
+[Omarchy](https://omarchy.org) is my desktop. When I miss something in the bar,
+I write a plugin for it. There are four so far, and each one installs with a
+single command.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/renerocksai/omajot"><img alt="The omajot main window on Omarchy" src="assets/omarchy/omajot.webp" width="100%"></a>
+<b><a href="https://github.com/renerocksai/omajot">omajot</a></b>: my own notes app, synced by my own hub. A dropdown and a main window in the bar, full keyboard control, and the same notes in the terminal and on my phone.
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/renerocksai/omajop"><img alt="The omajop panel: folders and tags, notes, and the rendered note" src="assets/omarchy/omajop.webp" width="100%"></a>
+<b><a href="https://github.com/renerocksai/omajop">omajop</a></b>: a Joplin notes browser. Folders and tags, the note list and the rendered note, one click away. omajot's predecessor. When you're ready to move, omajot imports Joplin in one command.
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/renerocksai/omapress"><img alt="The omapress panel listing the latest Omarchy news" src="assets/omarchy/omapress.webp" width="100%"></a>
+<b><a href="https://github.com/renerocksai/omapress">omapress</a></b>: Omarchy news in the bar. The newspaper turns red when there are unread posts, and a keyboard-driven panel reads them without a browser. Works offline.
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/renerocksai/neomarchy"><img alt="The neomarchy panel with favorite neowake sessions and a player" src="assets/omarchy/neomarchy.webp" width="100%"></a>
+<b><a href="https://github.com/renerocksai/neomarchy">neomarchy</a></b>: search, favorite and play <a href="https://app.neowake.de/">neowake</a> sessions from the bar. Playback runs through mpv with MPRIS, so the media keys just work.
+</td>
+</tr>
+</table>
+
+```sh
+omarchy plugin add https://github.com/renerocksai/omajot --enable
+omarchy plugin add https://github.com/renerocksai/omajop --enable
+omarchy plugin add https://github.com/renerocksai/omapress --enable
+omarchy plugin add https://github.com/renerocksai/neomarchy --enable
+```
+
+omajot also needs its hub on an always-on machine: see
+[Get started](https://renerocks.ai/omajot/get-started.html).
+
 ## 🧪 Case studies
 
 The question, the trade, the verdict.
@@ -43,7 +87,7 @@ the desktop and as `core.wasm` in the phone's web app. The hub is a
 
 **Trade:** Dropbox's zero-setup sync, for notes that never leave my own
 machines, work offline, never conflict, and that agents can script.<br>
-**Verdict:** ✅ **It is cool.** Really, really cool.
+**Verdict:** ✅ **Daily driver.** My notes live there now.
 
 ### [dockercr](https://github.com/renerocksai/dockercr): a container registry with nothing but SSH?
 
@@ -114,8 +158,6 @@ the async TigerBeetle client along the way. [Try it live](https://tigerfans.io).
 | [real-prog-qwerty](https://github.com/renerocksai/real-prog-qwerty) | A real programmer's QWERTY keyboard layout |
 | [zigllmwiki](https://github.com/technologylab-ai/zigllmwiki) | An agent-first knowledge base for Zig 0.16 systems programming |
 | [work-graph](https://github.com/technologylab-ai/work-graph) | GitHub-backed orientation and checkpoints for coding agents |
-| [omapress](https://github.com/renerocksai/omapress) | Omarchy news in the Omarchy bar, with a keyboard-driven reader |
-| [neomarchy](https://github.com/renerocksai/neomarchy) | Search, favorite and play neowake sessions from the Omarchy bar |
 | [aercbook](https://github.com/renerocksai/aercbook) | An address book for the aerc mail client, in Zig |
 | [0xeefe](https://github.com/renerocksai/0xeefe) | Easy encryption for everyone |
 | [pdfshrink](https://github.com/technologylab-ai/pdfshrink) | Makes scanned PDFs much smaller, with readable text |
