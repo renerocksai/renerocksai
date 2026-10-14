@@ -35,10 +35,10 @@
 <text x="545" y="158" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="400" fill="#59636e" text-anchor="middle" >2022</text>
 <circle cx="190" cy="220" r="10" fill="#ffffff" stroke="#1a7f37" stroke-width="4"/>
 <text x="190" y="256" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#1f2328" text-anchor="middle" >sublime_zk</text>
-<text x="190" y="278" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="400" fill="#59636e" text-anchor="middle" >2017 · ★ 505</text>
+<text x="190" y="278" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="400" fill="#59636e" text-anchor="middle" >2017 · ★ 506</text>
 <circle cx="350" cy="220" r="10" fill="#ffffff" stroke="#1a7f37" stroke-width="4"/>
 <text x="350" y="256" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#1f2328" text-anchor="middle" >sublimeless_zk</text>
-<text x="350" y="278" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="400" fill="#59636e" text-anchor="middle" >2018 · ★ 203</text>
+<text x="350" y="278" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="400" fill="#59636e" text-anchor="middle" >2018 · ★ 204</text>
 <circle cx="545" cy="220" r="10" fill="#ffffff" stroke="#1a7f37" stroke-width="4"/>
 <text x="545" y="256" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#1f2328" text-anchor="middle" >telekasten.nvim</text>
 <text x="545" y="278" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="400" fill="#59636e" text-anchor="middle" >2021 · ★ 1.7k</text>
