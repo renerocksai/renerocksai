@@ -278,12 +278,14 @@ OMARCHY_THEMES = {
         "bg": "#1a1b26", "pix0": "#232433", "pix1": "#2f3549", "pix2": "#3b4261",
         "text": "#c0caf5", "muted": "#737aa2", "bar": "#16161e", "barline": "#3b4261",
         "blue": "#7aa2f7", "green": "#9ece6a", "red": "#f7768e", "purple": "#bb9af7", "cyan": "#7dcfff",
+        "orange": "#ff9e64", "envelope": "#e2d6c6",
         "bands": ["#c0caf5", "#a9b8f0", "#8fabf3", "#7aa2f7", "#5a7fd6", "#3d59a1"],
     },
     "light": {
         "bg": "#e1e2e7", "pix0": "#d6d8e1", "pix1": "#c4c8da", "pix2": "#a8aecb",
         "text": "#3760bf", "muted": "#6172b0", "bar": "#d0d5e3", "barline": "#a8aecb",
         "blue": "#2e7de9", "green": "#587539", "red": "#f52a65", "purple": "#9854f1", "cyan": "#007197",
+        "orange": "#b15c00", "envelope": "#5c5048",
         "bands": ["#6d8fe0", "#4f7ade", "#2e7de9", "#2a66c4", "#23519e", "#1a3f7a"],
     },
 }
@@ -303,6 +305,9 @@ ICONS = {
     "omajot": ["#######.", "#.....##", "#.###..#", "#......#", "#.####.#", "#......#", "#.###..#", "########"],
     "omajop": ["..######", ".#.....#", "##.###.#", "#......#", "##.###.#", "#......#", "##.....#", ".#######"],
     "omapress": ["#######.", "#.....#.", "#.##..##", "#.##..##", "#.....##", "#.###.##", "#......#", "########"],
+    # omagma: an envelope sealed with magma, drawn in two layers
+    "omagma": ["##########", "##......##", "#.#....#.#", "#..#..#..#", "#...##...#", "#........#", "#........#", "##########"],
+    "omagma-seal": ["..........", "..........", "..........", "..........", "....##....", "...####...", "....##....", ".........."],
 }
 
 
@@ -348,12 +353,12 @@ def omarchy_banner(t):
     for i in range(4):
         fill = t["blue"] if i == 0 else t["pix2"]
         bar.append(f'<rect x="{bx + 24 + i * 30}" y="{by + 20}" width="18" height="18" rx="2" fill="{fill}"/>')
-    bar.append(text(bx + 300, by + 37, "Sat 19:25", 22, t["text"], 700, anchor="middle"))
+    bar.append(text(bx + 220, by + 37, "Sat 19:25", 22, t["text"], 700, anchor="middle"))
 
-    plugins = [("omajot", "green"), ("omajop", "blue"), ("omapress", "red"), ("neomarchy", "purple")]
+    plugins = [("omagma", "orange"), ("omajot", "green"), ("omajop", "blue"), ("omapress", "red"), ("neomarchy", "purple")]
     icons = []
     for i, (name, color) in enumerate(plugins):
-        cx = bx + 470 + i * 150
+        cx = bx + 390 + i * 130
         ix, iy = cx - 20, by + 9
         if name == "neomarchy":
             for k, (lo, hi) in enumerate([(10, 34), (18, 40), (8, 30), (15, 37)]):
@@ -361,6 +366,10 @@ def omarchy_banner(t):
                     f'<rect x="{ix + k * 10}" width="8" fill="{t[color]}" y="{iy + 40 - hi}" height="{hi}">'
                     f'<animate attributeName="height" values="{hi};{lo};{hi}" dur="{0.9 + k * 0.23:.2f}s" repeatCount="indefinite"/>'
                     f'<animate attributeName="y" values="{iy + 40 - hi};{iy + 40 - lo};{iy + 40 - hi}" dur="{0.9 + k * 0.23:.2f}s" repeatCount="indefinite"/></rect>')
+        elif name == "omagma":
+            # 10x8 cells of 4px: the same 40px width as the other icons
+            icons.append(pixel_icon(ICONS[name], ix, iy + 4, 4, t["envelope"]))
+            icons.append(pixel_icon(ICONS["omagma-seal"], ix, iy + 4, 4, t[color]))
         else:
             icons.append(pixel_icon(ICONS[name], ix, iy, 5, t[color]))
         if name == "omapress":  # unread news
@@ -368,7 +377,7 @@ def omarchy_banner(t):
                          f'<animate attributeName="opacity" values="1;0.35;1" dur="1.6s" repeatCount="indefinite"/></rect>')
         icons.append(text(cx, by + bh + 40, name, 23, t[color], 700, anchor="middle"))
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="The Omarchy wordmark above an Omarchy bar holding four plugins by Rene: omajot, omajop, omapress and neomarchy.">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="The Omarchy wordmark above an Omarchy bar holding five plugins by Rene: omagma, omajot, omajop, omapress and neomarchy.">
 <defs>
   <linearGradient id="bands" x1="0" y1="0" x2="0" y2="1">{stops}</linearGradient>
   <clipPath id="frame"><rect width="{W}" height="{H}" rx="18"/></clipPath>

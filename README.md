@@ -31,49 +31,69 @@ baz from the orange one, and the no-cloud rule from the blue one.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/omarchy-dark.svg">
-  <img alt="The Omarchy wordmark above an Omarchy bar holding my four plugins: omajot, omajop, omapress and neomarchy." src="assets/omarchy-light.svg" width="100%">
+  <img alt="The Omarchy wordmark above an Omarchy bar holding my five plugins: omagma, omajot, omajop, omapress and neomarchy." src="assets/omarchy-light.svg" width="100%">
 </picture>
 
 [Omarchy](https://omarchy.org) is my desktop. When I miss something in the bar,
-I write a plugin for it. There are four so far, and each one installs with a
-single command.
+I write a plugin for it. There are five so far.
 
 <table>
 <tr>
 <td width="50%" valign="top">
-<a href="https://github.com/renerocksai/omajot"><img alt="The omajot main window on Omarchy" src="assets/omarchy/omajot.webp" width="100%"></a>
-<b><a href="https://github.com/renerocksai/omajot">omajot</a></b>: my own notes app, synced by my own hub. A dropdown and a main window in the bar, full keyboard control, and the same notes in the terminal and on my phone.
+<a href="https://github.com/technologylab-ai/omagma"><img alt="The omagma dropdown in the Omarchy bar: three separate Gmail accounts with unread counts and recent mail" src="assets/omarchy/omagma.webp" width="100%"></a>
+<b><a href="https://github.com/technologylab-ai/omagma">omagma</a></b>: Gmail in the bar, without a 2 GB browser tab. Up to three accounts stay separate, each opening in its own Chrome profile, and the bar holds all three in about 31 MB. Plus a terminal client and an agent CLI for Linux and Mac. <a href="https://technologylab-ai.github.io/omagma/">Website</a>
 </td>
 <td width="50%" valign="top">
-<a href="https://github.com/renerocksai/omajop"><img alt="The omajop panel: folders and tags, notes, and the rendered note" src="assets/omarchy/omajop.webp" width="100%"></a>
-<b><a href="https://github.com/renerocksai/omajop">omajop</a></b>: a Joplin notes browser. Folders and tags, the note list and the rendered note, one click away. omajot's predecessor. When you're ready to move, omajot imports Joplin in one command.
+<a href="https://github.com/renerocksai/omajot"><img alt="The omajot main window on Omarchy" src="assets/omarchy/omajot.webp" width="100%"></a>
+<b><a href="https://github.com/renerocksai/omajot">omajot</a></b>: my own notes app, synced by my own hub. A dropdown and a main window in the bar, full keyboard control, and the same notes in the terminal and on my phone.
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
+<a href="https://github.com/renerocksai/omajop"><img alt="The omajop panel: folders and tags, notes, and the rendered note" src="assets/omarchy/omajop.webp" width="100%"></a>
+<b><a href="https://github.com/renerocksai/omajop">omajop</a></b>: a Joplin notes browser. Folders and tags, the note list and the rendered note, one click away. omajot's predecessor. When you're ready to move, omajot imports Joplin in one command.
+</td>
+<td width="50%" valign="top">
 <a href="https://github.com/renerocksai/omapress"><img alt="The omapress panel listing the latest Omarchy news" src="assets/omarchy/omapress.webp" width="100%"></a>
 <b><a href="https://github.com/renerocksai/omapress">omapress</a></b>: Omarchy news in the bar. The newspaper turns red when there are unread posts, and a keyboard-driven panel reads them without a browser. Works offline.
 </td>
+</tr>
+<tr>
 <td width="50%" valign="top">
 <a href="https://github.com/renerocksai/neomarchy"><img alt="The neomarchy panel with favorite neowake sessions and a player" src="assets/omarchy/neomarchy.webp" width="100%"></a>
 <b><a href="https://github.com/renerocksai/neomarchy">neomarchy</a></b>: search, favorite and play <a href="https://app.neowake.de/">neowake</a> sessions from the bar. Playback runs through mpv with MPRIS, so the media keys just work.
 </td>
+<td width="50%" valign="top">
+<b>Install</b><br>
+Four of them are one command each:
+<pre lang="sh">u=https://github.com/renerocksai
+for p in omajot omajop \
+         omapress neomarchy; do
+  omarchy plugin add $u/$p --enable
+done</pre>
+omagma ships as a verified release bundle: give your coding agent its <a href="https://technologylab-ai.github.io/omagma/">website</a> and let it walk you through the Google setup. omajot also needs its hub: see <a href="https://renerocks.ai/omajot/get-started.html">Get started</a>.
+</td>
 </tr>
 </table>
-
-```sh
-omarchy plugin add https://github.com/renerocksai/omajot --enable
-omarchy plugin add https://github.com/renerocksai/omajop --enable
-omarchy plugin add https://github.com/renerocksai/omapress --enable
-omarchy plugin add https://github.com/renerocksai/neomarchy --enable
-```
-
-omajot also needs its hub on an always-on machine: see
-[Get started](https://renerocks.ai/omajot/get-started.html).
 
 ## 🧪 Case studies
 
 The question, the trade, the verdict.
+
+### [omagma](https://github.com/technologylab-ai/omagma): Gmail without a 2 GB browser tab?
+
+One Gmail tab was using roughly 2 GB of RAM on my desktop. omagma moves Gmail
+into the Omarchy bar instead: up to three accounts, kept apart, each opening in
+its own Chrome profile. The bar is read-only and keeps mail in memory only.
+Behind it sits a Zig backend, a static musl binary on Linux, plus an
+experimental terminal client for Linux and Mac: full threads, Vim keys, search,
+Markdown compose with a cancellable send countdown, and Calendar. A JSONL CLI
+lets agents work the inbox, but only with the per-account grants I approve. The
+same TUI controller can even run in the browser as WebAssembly.
+
+**Trade:** an always-open Gmail tab, for a bar, a terminal and an agent
+interface that each get exactly the permissions I grant them.<br>
+**Verdict:** ✅ About 31 MB for three accounts in the bar, against a 2 GB tab.
 
 ### [omajot](https://github.com/renerocksai/omajot): synced notes with no cloud at all?
 
