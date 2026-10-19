@@ -395,6 +395,77 @@ def omarchy_banner(t):
 """
 
 
+# ---------------------------------------------------------------- social preview
+
+def social(t):
+    """The 1200x630 link preview for renerocks.ai: the hero, static and larger.
+
+    Link previews need a PNG, so render it once and copy it to the blog:
+    chromium --headless=new --hide-scrollbars --window-size=1200,630 \\
+        --screenshot=../renerocksai.github.io/assets/social.png assets/social.svg
+    """
+    W, H = 1200, 630
+    bolt = "1062,48 954,198 1016,198 978,314 1104,150 1040,150 1080,48"
+    traces = [
+        "M 954 198 L 910 198 L 890 218 L 850 218",
+        "M 992 120 L 950 120 L 925 95 L 870 95",
+        "M 978 290 L 940 290 L 915 315 L 860 315",
+        "M 1092 160 L 1130 160 L 1150 140 L 1180 140",
+        "M 1070 60 L 1100 60 L 1125 35",
+        "M 1030 250 L 1090 250 L 1110 270 L 1180 270",
+    ]
+    pads = [(850, 218), (870, 95), (860, 315), (1180, 140), (1125, 35), (1180, 270)]
+    lit = {0: (0.25, 0.45), 3: (0.1, 0.3), 5: (0.55, 0.75)}  # a few current pulses, frozen
+
+    art = [f'<circle cx="1030" cy="180" r="230" fill="url(#halo)"/>']
+    for i, d in enumerate(traces):
+        art.append(f'<path d="{d}" stroke="{t["trace"]}" stroke-width="3" fill="none" stroke-linejoin="round"/>')
+        if i in lit:
+            a, b = lit[i]
+            art.append(f'<path d="{d}" pathLength="1" stroke="{t["orange"]}" stroke-width="3" fill="none" '
+                       f'stroke-linecap="round" stroke-dasharray="{b - a} 1" stroke-dashoffset="{-a}"/>')
+    for x, y in pads:
+        art.append(f'<circle cx="{x}" cy="{y}" r="6" fill="{t["bg1"]}" stroke="{t["trace"]}" stroke-width="3"/>')
+    art.append(f'<polygon points="{bolt}" fill="url(#boltfill)" filter="url(#glow)"/>')
+
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="Rene Schallner: software engineer turned AI researcher and engineer. I build the tools I use every day. renerocks.ai">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="{t["bg1"]}"/><stop offset="1" stop-color="{t["bg0"]}"/>
+  </linearGradient>
+  <linearGradient id="boltfill" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="{t["bolt0"]}"/><stop offset="1" stop-color="{t["bolt1"]}"/>
+  </linearGradient>
+  <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.4" fill="{t["grid"]}"/>
+  </pattern>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0.15"/><stop offset="1" stop-color="#fff" stop-opacity="1"/>
+  </linearGradient>
+  <mask id="fademask"><rect width="{W}" height="{H}" fill="url(#fade)"/></mask>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="14" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="{t["orange"]}" stop-opacity="0.28"/><stop offset="1" stop-color="{t["orange"]}" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="{W}" height="{H}" fill="url(#bg)"/>
+<rect width="{W}" height="{H}" fill="url(#dots)" mask="url(#fademask)"/>
+<g transform="translate(-440 40) scale(1.45)">{"".join(art)}</g>
+
+{text(64, 132, "rene@vienna", 28, t["green"], 600)}{text(64 + 11 * 16.8, 132, ":", 28, t["muted"])}{text(64 + 12 * 16.8, 132, "~/code", 28, t["purple"], 600)}{text(64 + 19 * 16.8, 132, "$ whoami", 28, t["muted"])}
+{text(58, 248, "Rene Schallner", 88, t["text"], 800, extra='letter-spacing="-1"')}
+{text(64, 314, "software engineer → AI researcher & engineer", 28, t["muted"])}
+{text(64, 376, "I build the tools I use", 32, t["text"])}{text(64 + 24 * 19.2, 376, "every day.", 32, t["orange"], 800)}
+
+<rect x="64" y="500" width="72" height="4" rx="2" fill="{t["orange"]}"/>
+{text(64, 562, "renerocks.ai", 34, t["text"], 800)}{text(64 + 13 * 20.4, 562, "· blog · projects · case studies", 24, t["muted"])}
+</svg>
+'''
+
+
 def main():
     stars = fetch_stars()
     ASSETS.mkdir(exist_ok=True)
@@ -402,6 +473,7 @@ def main():
         (ASSETS / f"hero-{name}.svg").write_text(hero(theme))
         (ASSETS / f"map-{name}.svg").write_text(project_map(theme, stars))
         (ASSETS / f"omarchy-{name}.svg").write_text(omarchy_banner(OMARCHY_THEMES[name]))
+    (ASSETS / "social.svg").write_text(social(THEMES["dark"]))
     print("stars:", stars)
 
 
