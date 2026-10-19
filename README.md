@@ -40,8 +40,8 @@ I write a plugin for it. There are five so far.
 <table>
 <tr>
 <td width="50%" valign="top">
-<a href="https://github.com/technologylab-ai/omagma"><img alt="The omagma dropdown in the Omarchy bar: three separate Gmail accounts with unread counts and recent mail" src="assets/omarchy/omagma.webp" width="100%"></a>
-<b><a href="https://github.com/technologylab-ai/omagma">omagma</a></b>: Gmail in the bar, without a 2 GB browser tab. Up to three accounts stay separate, each opening in its own Chrome profile, and the bar holds all three in about 31 MB. Plus a terminal client and an agent CLI for Linux and Mac. <a href="https://technologylab-ai.github.io/omagma/">Website</a>
+<a href="https://github.com/technologylab-ai/omagma"><img alt="omagma's terminal calendar: one week combining calendars from three Google accounts, with meetings and Meet links" src="assets/omarchy/omagma.webp" width="100%"></a>
+<b><a href="https://github.com/technologylab-ai/omagma">omagma</a></b>: Gmail and Google Calendar in the terminal. Threads, Vim keys and Markdown compose; one week across three accounts; meetings with Google Meet links, guests from Contacts, and a reminder that joins in the right Chrome profile. Plus a read-only bar dropdown and an agent CLI. <a href="https://technologylab-ai.github.io/omagma/">Website</a>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/renerocksai/omajot"><img alt="The omajot main window on Omarchy" src="assets/omarchy/omajot.webp" width="100%"></a>
@@ -80,20 +80,24 @@ omagma ships as a verified release bundle: give your coding agent its <a href="h
 
 The question, the trade, the verdict.
 
-### [omagma](https://github.com/technologylab-ai/omagma): Gmail without a 2 GB browser tab?
+### [omagma](https://github.com/technologylab-ai/omagma): Gmail and Calendar without a 2 GB browser tab?
 
-One Gmail tab was using roughly 2 GB of RAM on my desktop. omagma moves Gmail
-into the Omarchy bar instead: up to three accounts, kept apart, each opening in
-its own Chrome profile. The bar is read-only and keeps mail in memory only.
-Behind it sits a Zig backend, a static musl binary on Linux, plus an
-experimental terminal client for Linux and Mac: full threads, Vim keys, search,
-Markdown compose with a cancellable send countdown, and Calendar. A JSONL CLI
-lets agents work the inbox, but only with the per-account grants I approve. The
-same TUI controller can even run in the browser as WebAssembly.
+One Gmail tab was using roughly 2 GB of RAM on my desktop. So omagma brings
+Gmail and Google Calendar into the terminal instead, for up to three accounts
+kept apart. The TUI does the whole job: threads, search, Vim keys, labels,
+attachments, invitations, and Markdown compose with a cancellable send
+countdown. Calendar shows all three accounts in one week, creates and
+reschedules meetings with Google Meet links and guests picked from Contacts,
+and reminds me ten minutes before a meeting, with Join opening in that
+account's Chrome profile. A read-only dropdown in the Omarchy bar shows new
+mail at a glance, and a JSONL agent CLI lets agents work mail and calendar with
+only the per-account grants I approve. All of it is Zig: a static musl binary
+on Linux, and the same TUI controller even runs in the browser as WebAssembly.
 
-**Trade:** an always-open Gmail tab, for a bar, a terminal and an agent
-interface that each get exactly the permissions I grant them.<br>
-**Verdict:** ✅ About 31 MB for three accounts in the bar, against a 2 GB tab.
+**Trade:** always-open Gmail and Calendar tabs, for a terminal, a bar and an
+agent interface that each get exactly the permissions I grant them.<br>
+**Verdict:** ✅ Mail and calendar in the terminal, and the bar holds three
+accounts in about 31 MB, against one 2 GB tab.
 
 ### [omajot](https://github.com/renerocksai/omajot): synced notes with no cloud at all?
 
